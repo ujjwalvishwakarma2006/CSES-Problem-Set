@@ -1,0 +1,6 @@
+*.exe
+*.out
+*.tmp
+*.o
+*.txt
+.cph/
