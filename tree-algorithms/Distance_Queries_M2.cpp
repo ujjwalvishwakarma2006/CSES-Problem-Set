@@ -1,13 +1,31 @@
 /*
-This question can be mapped to finding the lowest common ancestor of two nodes in a tree.
-Another method that similar to M1 again uses the binary lifting technique. 
+    Another simplerer approach is even more identical to the second method of Distance queries.
 
-In this method, when finding LCA of two given nodes, we first lift the deeper node up
-so that it comes to the same level as the shallower node. 
-After this, we check if the two nodes are equal.
-If yes, then we immediately return that node.
-Else, we simultaneously keep jumping up towards root node till we see their ancestors
-are different.
+PROBLEM:
+    Find the distance between any two arbitrary nodes in a tree.
+
+KEY CONCEPTS USED:
+    1. Binary Lifting
+    2. Bit Shifting
+    3. Depth First Search (DFS)
+
+ALGORITHM:
+
+    STEP 1: DFS - Build Data Structures
+    -------------------------------------
+    Populate the following using DFS traversal:
+
+      • depth[i]:
+        The depth (distance from root) of node i
+
+      • up[i][j]:
+        The 2^j-th ancestor of node i
+
+    STEP 2: Distance Calculation
+    ------------------------------
+    1. Find LCA of the two nodes.
+    2. Return depth[u] + depth[v] - 2 * depth[LCA(a, b)]
+
 */
 
 #include <iostream>
@@ -60,23 +78,30 @@ int lca(int u, int v) {
     return up[u][0];
 }
 
+int distance(int u, int v) {
+    return depth[u] + depth[v] - 2 * depth[lca(u, v)];
+}
+
 void inputAndPreprocess() {
     adj.resize(n + 1);
     up.resize(n + 1, vector<int>(MAX_LOG, 0));
     depth.resize(n + 1, 0);
     
-    for (int u = 2; u <= n; ++u) {
-        int v;
-        cin >> v;
+    for (int i = 0; i < n - 1; ++i) {
+        int u, v;
+        cin >> u >> v;
         adj[u].push_back(v);
         adj[v].push_back(u);
     }
     
+    depth[0] = -1;
     dfs(root, 0);
 }
 
 int main() {
 
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
     root = 1;
     cin >> n >> q;
 
@@ -85,7 +110,7 @@ int main() {
     while (q--) {
         int a, b;
         cin >> a >> b;
-        cout << lca(a, b) << endl;
+        cout << distance(a, b) << endl;
     }
 
     return 0;
