@@ -267,7 +267,7 @@ int main() {
     inputAndPreprocess();
     
     // Create segment tree with SUM operation (default)
-    SegmentTree tree(nums, N, SegmentTree::SUM);
+    SegmentTree tree(nums, N, SegmentTree::MIN);
     
     while (Q--) {
         int qType, a, b;

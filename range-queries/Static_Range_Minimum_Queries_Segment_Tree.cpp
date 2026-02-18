@@ -267,20 +267,12 @@ int main() {
     inputAndPreprocess();
     
     // Create segment tree with SUM operation (default)
-    SegmentTree tree(nums, N, SegmentTree::SUM);
+    SegmentTree tree(nums, N, SegmentTree::MIN);
     
     while (Q--) {
-        int qType, a, b;
-        cin >> qType >> a >> b;
-        
-        if (qType == 1) {
-            // Update query: set value at position a to b
-            tree.updateValue(a - 1, b);
-            nums[a - 1] = b;
-        } else if (qType == 2) {
-            // Range query: get result for range [a, b]
-            cout << tree.query(a - 1, b - 1) << '\n';
-        }
+        int a, b;
+        cin >> a >> b;
+        cout << tree.query(a - 1, b - 1) << '\n';
     }
     
     return 0;
